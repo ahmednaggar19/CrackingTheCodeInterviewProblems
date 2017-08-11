@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1502468082 source:d:\problemsolving\ciproblems\main.cpp
+	<iostream>
+	<map>
+	<algorithm>
+	<string>
+

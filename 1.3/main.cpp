@@ -2,40 +2,31 @@
 
 using namespace std;
 
-int countIntraSpaces(string s) {
-    char c = ' ';
-    int trailingSpacesCounter = 0;
-    int allSpacesCounter = 0;
-    for (int i = s.length() - 1; i >= 0; i--) {
-        c = s[i];
-        if (c != ' ') break;
-        trailingSpacesCounter++;
-    }
-    for (int i = 0; i < s.length(); i++) {
-        c = s[i];
-        if (c == ' ') {
-            allSpacesCounter++;
-        }
-    }
-    return allSpacesCounter - trailingSpacesCounter;
+int countIntraSpaces(string s, int trueLength) {
+   int spacesCounter = 0;
+   for (int i = 0; i < trueLength; i++) {
+        if (s[i] == ' ') spacesCounter++;
+   }
+   return spacesCounter;
 }
 
 string replaceSpaces(string s, int trueLength) {
     string modifiedString = "";
     string spaceReplacement = "%20";
-    int counter = countIntraSpaces(s);
-    for (int i = 0; i < s.length(); i++) {
-        char c = s[i];
-        if (modifiedString.length() == (trueLength + counter * 2)) {
-            break;
-        }
-        if (c == ' ') {
-            modifiedString.append(spaceReplacement);
+    int counter = countIntraSpaces(s, trueLength);
+    int lastIndex = trueLength + counter * 2;
+    for (int i = trueLength - 1; i  >= 0; i--) {
+        if (s[i] == ' ') {
+            s[lastIndex - 1] = '0';
+            s[lastIndex - 2] = '2';
+            s[lastIndex - 3] = '%';
+            lastIndex -= 3;
         } else {
-            modifiedString.push_back(c);
+            s[lastIndex - 1] = s[i];
+            lastIndex--;
         }
     }
-    return modifiedString;
+    return s;
 }
 
 int main()

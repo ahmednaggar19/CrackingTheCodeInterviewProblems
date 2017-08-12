@@ -41,7 +41,7 @@ string getCompressedString(string input) {
             prevChar = input[i];
         }
     }
-    return compressedString;
+    return (compressedString.length() < input.length() ? compressedString : input);
 }
 int main()
 {

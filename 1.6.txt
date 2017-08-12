@@ -1,0 +1,52 @@
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+const char A_SMALL = 'a';
+const char Z_SMALL = 'z';
+const char A_CAP = 'A';
+const char Z_CAP = 'Z';
+
+const int ALPHA_SIZE = 26;
+
+bool isLowerCase(char letter) {
+    return ((letter >= A_SMALL && letter <= Z_SMALL));
+}
+
+string stringfyNumber(int number) {
+    string numberString = "";
+    while (number > 0) {
+        string curDigit = ""; curDigit.push_back((char) (number % 10 + '0'));
+        curDigit.append(numberString);
+        numberString = curDigit;
+        number /= 10;
+    }
+    return numberString;
+}
+
+string getCompressedString(string input) {
+    string compressedString = "";
+    int curCounter = 1;
+    char prevChar = input[0];
+    for (unsigned int i = 1; i < input.length(); i++) {
+        if (input[i] == prevChar) {
+            curCounter++;
+        } else {
+            compressedString.push_back(prevChar);
+            compressedString.append(stringfyNumber(curCounter));
+            curCounter = 1;
+            prevChar = input[i];
+        }
+    }
+    return compressedString;
+}
+int main()
+{
+    string word;
+    cin >> word;
+    cout << getCompressedString(word);
+    return 0;
+}

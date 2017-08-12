@@ -1,0 +1,48 @@
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+const int MAX_DIFF = 1;
+
+set <char> getWordChars(string word) {
+    set <char> wordChars;
+    for (unsigned int i = 0; i < word.length(); i++) {
+        wordChars.insert(word[i]);
+    }
+    return wordChars;
+}
+
+bool isSubset(set <char> largeSet, set <char> smallSet) {
+    set <char> :: iterator it = largeSet.begin();
+    int diff = 0;
+    while (it != largeSet.end()) {
+        if (!smallSet.count(*it)) {
+            diff++;
+        }
+        it++;
+    }
+    return (diff <= MAX_DIFF);
+}
+
+
+bool isOneEditAway(string word1, string word2) {
+    if (abs((int)word1.length() - (int)word2.length()) > MAX_DIFF) {
+        return false;
+    }
+    set <char> word1Chars = getWordChars(word1);
+    set <char> word2Chars = getWordChars(word2);
+    if (word1Chars.size() >= word2Chars.size()) {
+        return isSubset(word1Chars, word2Chars);
+    }
+    return isSubset(word2Chars, word1Chars);
+}
+/// pale -- ple
+int main()
+{
+    string word1, word2;
+    cin >> word1 >> word2;
+    cout << isOneEditAway(word1, word2);
+    return 0;
+}

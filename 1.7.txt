@@ -1,0 +1,80 @@
+#include <iostream>
+#include <stdio.h>
+#include <set>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+int **image;
+
+void readImage (int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            int pixel; scanf("%d", &pixel);
+            image[i][j] = pixel;
+        }
+    }
+    return;
+}
+
+void printImage (int n) {
+    for (int i = 0; i < n; i++) {
+        printf("= ");
+    }
+    printf("\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d ", image[i][j]);
+        }
+        printf("\n");
+    }
+    return;
+}
+
+void initializeImage(int n) {
+    image  = (int **) malloc(n * sizeof(int *));
+    for (int i = 0; i < n; i++) {
+        image[i] = (int *) malloc(n * sizeof(int));
+    }
+    return;
+}
+
+void rotateImage(int n) {
+    for (int i = 0; i < n; i++) {
+        if ( (4 * n - 4 * i) <= 1) {
+            break;
+        }
+        int temp[n];
+        /// copying top side of the image into temp
+        for (int j = n - 1 - i; j > 0; j--) {
+            temp[j] = image[i][j];
+        }
+        /// moving left side to the top side
+        for (int k = i, j = n - 1 - i; j >= i; j--, k++) {
+            image[i][j] = image[k][i];
+        }
+        /// moving bottom side to the left side
+        for (int j = n - 1 - i; j > i; j--) {
+            image[j][i] = image[n - 1 - i][j];
+        }
+        /// moving right side to the bottom side
+        for (int k = i, j = n - 1 - i; j > i; j--, k++) {
+            image[n - 1 - i][j] = image[k][n - 1 - i];
+        }
+        /// moving temp to the right side
+        for (int j = n - 1 - i; j > i; j--) {
+            image[j][n - 1 - i] = temp[j];
+        }
+    }
+    return;
+}
+
+int main() {
+    int n; cin >> n;
+    initializeImage(n);
+    readImage(n);
+    rotateImage(n);
+    printImage(n);
+    return 0;
+}

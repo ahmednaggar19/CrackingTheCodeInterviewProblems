@@ -1,0 +1,74 @@
+#include <iostream>
+#include <stdio.h>
+#include <set>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+int **matrix;
+
+void readMatrix (int n, int m) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            int cell; scanf("%d", &cell);
+            matrix[i][j] = cell;
+        }
+    }
+    return;
+}
+
+void printMatrix (int n, int m) {
+    for (int i = 0; i < m; i++) {
+        printf("= ");
+    }
+    printf("\n");
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    return;
+}
+
+void initializeMatrix(int n, int m) {
+    matrix = (int **) malloc(n * sizeof(int *));
+    for (int i = 0; i < n; i++) {
+        matrix[i] = (int *) malloc(m * sizeof(int));
+    }
+    return;
+}
+
+pair <int,int> getZeroIndices(int n, int m) {
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 0) {
+               return {i,j};
+            }
+        }
+    }
+    /// no zero entry available
+    return {-1, -1};
+}
+
+void setZeroRowAndColumn(int n, int m) {
+    pair <int,int> zeroEntryIndices = getZeroIndices(n,m);
+    for (int i = 0; i < m; i++) {
+        matrix[zeroEntryIndices.first][i] = 0;
+    }
+    for (int i = 0; i < n; i++) {
+        matrix[i][zeroEntryIndices.second] = 0;
+    }
+    return;
+}
+
+int main() {
+    int n, m; cin >> n >> m;
+    initializeMatrix(n, m);
+    readMatrix(n, m);
+    setZeroRowAndColumn(n, m);
+    printMatrix(n, m);
+    return 0;
+}

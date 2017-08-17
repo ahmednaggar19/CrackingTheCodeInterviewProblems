@@ -1,0 +1,45 @@
+/**
+* This solutions takes O(n) Time, where n is the length of the linked list.
+* Space Complexity : O(n).
+*/
+public void removeDuplicates(LinkedListNode node) {
+	HashSet<Integer> set = new HashSet<>();
+	
+	LinkedListNode previous = null;
+	
+	while (node != null) {
+		if (set.contains(node.data)) {
+			if (previous != null) {
+				previous.setNext(node.next);
+				node.setNext(null);			
+			}
+		} else {
+			set.add(node.data);
+		}
+		previous = node;
+		node = node.next();
+	}
+	return;		
+}
+
+/**
+* Time Complexity : O(n^2)
+* Space Complexity : O(1)
+*/
+
+public void removeDuplicates(LinkedListNode node) {
+	while (node != null) {
+		Integer current = node.data;
+		LinkedListNode nodeIterator = node.next;
+		LinkedListNode previous = node;
+		while (nodeIterator != null) {
+			if (nodeIterator.data == current) {
+				previous.setNext(nodeIterator.next);
+				nodeIterator.setNext(null);
+			}
+			previous = nodeIterator;
+			nodeIterator = nodeIterator.next();
+		}
+	}
+	return;
+}

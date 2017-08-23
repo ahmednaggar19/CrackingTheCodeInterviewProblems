@@ -1,0 +1,83 @@
+/**
+*  Time Complexity : O(N)
+*  Space Complexity : O(N)
+*/
+T getKthLastElement (LinkedListNode node, int k) {
+	ArrayList<T> elements = new ArrayList<>();
+	while (node != null) {
+		elements.add(node.data);
+		node = node.next;
+	}
+	return elements.get (elements.size() - 1 - k);
+}
+
+/**
+*  Time Complexity : O(N - k)
+*  Space Complexity : O(1)
+*  Assuming that linkedListSize is also available
+*/
+T getKthLastElement (LinkedListNode node, int k, int linkedListSize) {
+	int currentSize = 0;
+	T currentData = null;
+	while (node != null && currentSize <= linkedListSize - k) {
+		currentData = (node.data);
+		currentSize++;
+		node = node.next;
+	}
+	return currentData;
+}
+
+/**
+*  Time Complexity : O(N)
+*  Space Complexity : O(N)
+*/
+
+class NodeResult {
+	public LinkedListNode node;
+	public boolean isTarget;
+	public int index;
+	/** Constructor */
+	public NodeResult (LinkedListNode node, boolean isTarget, int index) {
+		this.node = node;
+		this.isTarget = isTarget;
+		this.index = index;
+	} 
+}
+
+NodeResult getKthLastElementRecursive (LinkedListNode node, int k) {
+	if (node == null) {
+		return new NodeResult(null, false, 0);
+	}
+	NodeResult result = getKthLastElementRecursive(node.next, k);
+	if (result.index == k) {
+		return new NodeResult(node, true, k);
+	}
+	if (result.isTarget) {
+		return result;
+	}
+	return new NodeResult(node, false, result.index + 1);
+}
+
+T getKthLastElement (LinkedListNode node, int k) {
+	return getKthLastElementRecursive(node, k).node;
+}
+=====================================================================
+All above solutions except the last one returns data rather than node 
+=====================================================================
+/**
+*  Time Complexity O(N)
+*  Space Complexity O(1)
+*/
+LinkedListNode getKthLastElement (LinkedListNode node, int k) {
+	LinkedListNode nodeIterator = node;
+	for (int i = 0; i < k; i++) {
+		node = node.next;
+	}
+
+	while (node != null) {
+		node = node.next;
+		nodeIterator = nodeIterator.next;
+	}
+	return nodeIterator;
+}
+

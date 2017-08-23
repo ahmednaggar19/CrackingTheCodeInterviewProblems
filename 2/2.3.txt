@@ -1,0 +1,19 @@
+/**
+*  Time Complexity : O(N)
+*  Space Complexity : O(1)
+*/
+void removeNode(LinkedListNode node) {
+	if (node.next == null) // cannot be removed !
+		return;
+	LinkedListNode nodeIterator = node;
+	LinkedListNode previousNode = node;
+	while (nodeIterator.next != null) {
+		nodeIterator.data = nodeIterator.next.data;
+		previousNode = nodeIterator;
+		nodeIterator = nodeIterator.next;
+	}
+	// removing last node	
+	previousNode.next = null;
+	nodeIterator = null;
+	return;
+}

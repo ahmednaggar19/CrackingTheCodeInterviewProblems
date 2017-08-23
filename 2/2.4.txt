@@ -29,7 +29,7 @@ LinkedListNode putNodeInSmallPartition (LinkedListNode node, LinkedListNode theN
 * Time Complexity : O(N)
 * Space Complexity : O(1)
 */
-void partition (LinkedListNode head, int pivot) {
+LinkedListNode partition (LinkedListNode head, int pivot) {
 	LinkedListNode smallListHead = head;
 	LinkedListNode currentNode = head;
 	while (currentNode != null) {
@@ -37,5 +37,5 @@ void partition (LinkedListNode head, int pivot) {
 			head = putNodeInSmallPartition (currentNode, previousNode);
 		}
 	}
-	return;
+	return head;
 }

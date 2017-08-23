@@ -1,0 +1,57 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int getNumber (ListNode* l) {
+        int number = 0;
+        int base = 1;
+        while (l != NULL) {
+            number += (l->val) * base;
+            base *= 10;
+            l = l->next;
+        }
+        return number;
+    }
+ 
+    ListNode* createNumberList(int number) {
+        if (number == 0) {
+            return new ListNode(0);
+        }
+        vector <int> digits;
+        while (number != 0) {
+            digits.push_back(number % 10);
+            number /= 10;
+        }
+        ListNode node(-1);
+        ListNode* current = &node;
+        for (int digit : digits) {
+            current->next = new ListNode(digit);
+            current = current->next;
+        }
+        current->next = NULL;
+        return node.next;
+    }
+
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        /*int firstNumber = getNumber(l1);
+        int secondNumber = getNumber(l2);
+        return createNumberList(firstNumber + secondNumber);*/
+        ListNode preHead(0), *p = &preHead;
+        int extra = 0;
+        while (l1 || l2 || extra) {
+        int sum = (l1 ? l1->val : 0) + (l2 ? l2->val : 0) + extra;
+        extra = sum / 10;
+        p->next = new ListNode(sum % 10);
+        p = p->next;
+        l1 = l1 ? l1->next : l1;
+        l2 = l2 ? l2->next : l2;
+    }
+    return preHead.next;
+    }
+};

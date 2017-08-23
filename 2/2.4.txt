@@ -1,0 +1,41 @@
+/**
+* extracts the node from the Node before it and returns a pointer to that Node.
+*/
+LinkedListNode extractNode (LinkedListNode theNodeBefore) {
+	LinkedListNode extractedNode = theNodeBefore.next;
+	theNodeBefore.next = extractedNode.next;
+	extractedNode.next = null;
+	return extractedNode;
+}
+
+/**
+* inserts node at the front of the linked list and returns a pointer to the new head of the list.
+*/
+LinkedListNode insertNodeAtFirst (LinkedListNode head, LinkedListNode node) {
+	node.next = head;
+	return head = node;
+}
+
+/**
+* places the node into the small partition by extracting it from its current position.
+* and inserts it in the front of the linked list.
+*/
+LinkedListNode putNodeInSmallPartition (LinkedListNode node, LinkedListNode theNodeBefore, LinkedListNode head) {
+	LinkedListNode extractedNode = extractNode (theNodeBefore);
+	return insertNodeAtFirst (head, extractedNode);
+}  
+
+/**
+* Time Complexity : O(N)
+* Space Complexity : O(1)
+*/
+void partition (LinkedListNode head, int pivot) {
+	LinkedListNode smallListHead = head;
+	LinkedListNode currentNode = head;
+	while (currentNode != null) {
+		if (currentNode.data <= pivot) {
+			head = putNodeInSmallPartition (currentNode, previousNode);
+		}
+	}
+	return;
+}

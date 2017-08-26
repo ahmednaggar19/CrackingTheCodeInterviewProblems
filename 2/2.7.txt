@@ -1,0 +1,96 @@
+/**
+* Time Complexity : O(N1 * N2)
+* Space Complexity : O(1)
+*/
+LinkedListNode getIntersectionNode (LinkedListNode list1Head, LinkedListNode list2Head) {
+	LinkedListNode list1Iterator = list1Head;
+	while (list1Iterator != null) {
+		LinkedListNode list2Iterator = list2Head;
+		while (list2Iterator != null) {
+			if (list1Iterator == list2Iterator) {
+				return list1Iterator;
+			}
+			list2Iterator = list2Iterator.next;
+		}
+		list1Iterator = list1Iterator.next;
+	}
+	// No intersection found
+	return null;
+}
+
+/**
+* Time Complexity : O(N1 + N2)
+* Space Complexity : O(N1)
+*/
+LinkedListNode getIntersection (LinkedListNode list1Head, LinkedListNode list2Head) {
+	HashMap <LinkedListNode, LinkedListNode> list1Refernces = new HashMap <>();
+	LinkedListNode list1Iterator = list1Head;
+	while (list1Iterator != null) {
+		list1References.put(list1Iterator, list1Iterator);
+		list1Iterator = list1Iterator.next;	
+	}
+	LinkedListNode list2Iterator = list2Head;
+	while (list2Iterator != null) {
+		if (list1References.containsKey (list2Iterator)) {	
+			return list2Iterator;
+		}
+		list2Iterator = list2Iterator.next;
+	}
+	return null;
+}
+
+======================================================================================
+/**
+* Time Complexity : O(N1 + N2)
+* Space Complexity : O(1)
+*/
+LinkedListNode getIntersection (LinkedListNode list1head, LinkedListNode list2Head) {
+	if (list1Head == null || list2Head == null) {
+		return null;
+	}
+	ListInfo list1Info = ListInfo (list1Head);
+	ListInfo list2Info = ListInfo (List2Head);
+	
+	if (list1Info.tail != list2Info.tail) {
+		return null;
+	}
+	
+	LinkedListNode shortListIterator = (list1Info.size > list2Info.size) list2Head : list1Head;
+	LinkedListNode longListIterator = (list1Info.size >= list2Info.size) list1Head : list2Head;
+	advanceIterator (longListIterator, Math.abs (list1Info.size - list2Info.size));
+	while (shortListIterator != longListIterator) {	
+		shortListIterator = shortListIterator.next;
+		longListIterator = longListIterator.next;
+	}
+	return longListIterator;
+}
+
+class ListInfo {
+	public LinkedListNode tail;
+	public int size;
+
+	ListInfo (LinkedListNode listHead) {
+		initializeAttributes(listHead);
+	}
+	
+	void initializeAttributes (LinkedListNode listHead) {
+		int size = 0;
+		LinkedListNode nodeIterator = listHead;
+		LinkedListNode previousNode = null;
+		while (nodeIterator != null) {
+			size++;
+			previousNode = nodeIterator;
+			nodeIterator = nodeIterator.next;
+		}
+		this.tail = previousNode;
+		this.size = size;
+		return;
+	}
+}
+
+void advanceIterator (LinkedListNode listHead, int offset) {
+	for (int i = 0; i < offset; i++) {
+		listHead = listHead.next;
+	}
+	return;
+}

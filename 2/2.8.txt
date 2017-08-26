@@ -1,0 +1,48 @@
+/**
+* Time Complexity : O(N)
+* Space Complexity : O(N)
+*/
+LinkedListNode getLoopStartNode (LinkedListNode head) {
+	HashMap <LinkedListNode, LinkedListNode> nodes = new HashMap <>();
+	while (head != null) {
+		// loop detected
+		if (nodes.containsKey(head)) {
+			return head;
+		}
+		nodes.put(head, head);
+		head = head.next;
+	}
+	// no loop was found
+	return null;
+}
+
+===========================================================================
+/**
+*  Time Complexity : O(N)
+*  Space Complexity : O(1)
+*/
+LinkedListNode getLoopStartNode (LinkedListNode head) {
+	LinkedListNode slowRunner = head;
+	LinkedListNode fastRunner = head;
+	LinkedListNode collisionSpotNode = getCollisionSpot (slowRunner, fastRunner);
+	if (collisionSpotNode == null) {
+		// no loop was found
+		return null;
+	}
+	while (collisionSpotNode != head) {
+		collisionSpotNode = collisionSpotNode.next;
+		head = head.next;	
+	}
+	return head;
+}
+
+LinkedListNode getCollisionSpot (LinkedListNode slowRunner, LinkedListNode fastRunner) {
+	while (slowRunner != fastRunner) {
+		if (fastRunner == null || fastRunner.next == null) {
+			return null;
+		} 
+		slowRunner = slowRunner.next;
+		fastRunner = fastRunner.next.next;
+	}
+	return fastRunner;
+}

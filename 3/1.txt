@@ -1,0 +1,65 @@
+public class StacksHolder {
+	private int[] values;
+	private int numberOfStacks;
+	private int fixedStackSize;
+	private int[] topIndices;
+	
+	public StacksHolder (int fixedStackSize, int numberOfStacks) {
+		this.fixedStackSIze = fixedStackSize;
+		this.numberOfStacks = numberOfStacks;
+		this.values = new int[numberOfStacks * fixedStackSize];
+		this.topIndices = new int[numberOfStacks]; 
+	}
+	
+	/**
+	* This function pushes an element (int) into the.
+	* indicated stack.
+	* @param element the element to be pushed
+	* @param stackNumber denoting which stack to push into
+	*/
+	public void push (int element, int stackNumber) {
+		if (isFull(stackNumber)) {
+			throw new FullStackException();
+		}
+		values [getTopIndex(stackNumber)] = element;
+		incrementTopIndex(stackNumber);
+		return;
+	}
+
+	/**
+	* This function pops an element (int) from the.
+	* indicated stack.
+	* @param stackNumber denoting which stack to pop from
+	* @return element the popped element
+	*/
+	public int pop (int stackNumber) {
+		if (isEmpty(stackNumber)) {
+			throw new EmptyStackException();
+		}
+		int element = values[getTopIndex(stackNumber)];
+		decrementTopIndex(stackNumber);
+		return element;
+	}
+
+	private boolean isEmpty (int stackNumber) {
+		return getTopIndex(stackNumber) == 0;
+	}
+
+	private boolean isFull (int stackNumber) {
+		return getTopIndex(stackNumber) == fixedStackSize;
+	}
+
+	private int getTopIndex (int stackNumber) {
+		returns topIndex[stackNumber - 1];
+	}
+
+	private void incrementTopIndex (int stackNumber) {
+		topIndex[stackNumber]++;
+		return;
+	}
+
+	private void decrementTopIndex (int stackNumber) {
+		topIndex[stackNumber]--;
+		return;
+	}
+}

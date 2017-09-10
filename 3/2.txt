@@ -1,0 +1,37 @@
+/**
+* Space Complexity : O(N) "Double the space"
+* Time Complexity : O(N)
+*/
+
+public classs NodeMinPair {
+	public int node;
+	public int min;
+	
+	public NodeMinPair (int node, int min) {
+		this.node = node;
+		this.min = min;
+	}
+}
+
+public class MinStack {
+	private Stack <NodeMinPair> stack;
+	private int min;
+
+	public MinStack () {
+		stack = new Stack <>();
+	}
+
+	void push (int node) {
+		stack.push (new NodeMinPair(node, Math.min(node, min));
+	}
+
+	int pop () {
+		NodeMinPair poppedNode = stack.pop();
+		this.min = poppedNode.min;
+		return poppedNode.node;		
+	}
+
+	int min () {
+		return min;
+	}
+}

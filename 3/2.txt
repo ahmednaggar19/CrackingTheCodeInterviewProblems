@@ -22,7 +22,8 @@ public class MinStack {
 	}
 
 	void push (int node) {
-		stack.push (new NodeMinPair(node, Math.min(node, min));
+		stack.push (new NodeMinPair(node, min));
+		min = Math.min(node, min);
 	}
 
 	int pop () {

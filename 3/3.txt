@@ -1,0 +1,65 @@
+public class SetOfStacks {
+	private ArrayList <Stack<Integer>> setOfStacks;
+	private int threshold;
+
+	public SetOfStacks (int threshold)  {
+		this.threshold = threshold;
+		this.setOfStacks = new ArrayList<>();
+		this.setOfStacks.add (new Stack<>());
+	}
+
+	public void push (int node) {
+		if (setOfStacks.get(setOfStacks.size() - 1).size < threshold) {
+			setOfStacks.get(setOfStacks.size() - 1).push(node);
+		} else {
+			Stack <Integer> newStack = new Stack<>();
+			newStack.push(node);
+			setOfStacks.add(newStack);
+		}
+		return;
+	}
+
+	public int pop () {
+		if (setOfStacks.get(setOfStacks.size() - 1).isEmpty()) {
+			throw new EmptyStackException();
+		}
+		int popped = setOfStacks.get(setOfStacks.size() - 1).pop();
+		if (setOfStacks.get(setOfStacks.size() - 1).isEmpty()) {
+			setOfStacks.remove(setOfStacks.size() - 1);
+		}
+		return popped;
+	}
+
+	public int popAt (int index) {
+		if (index == setOfStacks.size() - 1) {
+			return pop();
+		}
+		int popped = setOfStacks.get(index).pop();
+		pushAt(index, popBottomAt(index + 1));
+		return popped;
+	}
+
+	private int popBottomAt (int index) {
+		Stack <Integer> currentStack = setOfStacks.get(index);
+		Stack <Integer> tempStack = new Stack <>();
+		while (!currentStack.isEmpty()) {
+			tempStack.push(currentStack.pop());
+		}
+		int popped = tempStack.pop();
+		while (!tempStack.isEmpty) {
+			currentStack.push(tempStack.pop());
+		}
+		if (index < setOfStacks.size() - 1) {
+			pushAt(index, popBottomAt(index + 1));
+		}
+		return popped;
+	}
+
+	private void pushAt (int index, int node) {
+		if (setOfStacks.get(index).size >= threshold) {
+			throw new FullStackException();
+		}
+		setOfStacks.get(index).push(node);
+		return;
+	}
+}

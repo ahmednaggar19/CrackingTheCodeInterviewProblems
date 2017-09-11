@@ -1,0 +1,36 @@
+public class TreeNode {
+
+	public int value;
+	public Node leftChild;
+	public Node rightChild;
+}
+
+public class BalanceCheckResult {
+
+	public boolean isBalanced;
+	public int heightDifference;
+
+	public BalanceCheckResult (boolean isBalanced, int heightDifference) {
+		this.isBalanced = isBalanced;
+		this.heightDifference = heightDifference;
+	}
+}
+
+public BalanceCheckResult isBalancedTreeNode (TreeNode root) {
+	if (root.leftChild == null && root.rightChild == null) {
+		return new BalanceCheckResult(true, 0);
+	}
+	BalanceCheckResult leftChildResult = isBalancedTreeNode (root.leftChild);
+	BalanceCheckResult rightChildResult = isBalancedTreeNode (root.rightChild);
+	if (!leftChildResult.isBalanced || !rightChildResult.isBalanced) {
+		return new BalanceCheckResult(false, 0);
+	}
+	if (Math.abs(leftChildResult.heightDifference - rightChildResult.heightDifference) > 1) {
+		return new BalanceCheckResult(false, 0);
+	}
+	return new BalanceCheckResult(true, Math.max(leftChildResult.heightDifference, rightChildResult.heightDifference) + 1);
+}
+
+public boolean isBalancedTree (TreeNode root) {
+	return isBalancedTreeNode (root).isBalanced;
+}

@@ -1,0 +1,37 @@
+public class Node {
+
+	public int value;
+	public Node[] adjacentNodes;
+	public int distanceToRoot;
+}
+
+public ArrayList <ArrayList <Node>> getDepthsList (Node root) {
+	ArrayList <ArrayList <Node>> depthsList = new ArrayList<ArrayList<>>();
+	Queue <Node> bfsQueue = new Queue <>();
+	Set <Node> visitedNodes = new Set<>();
+	bfsQueue.add(root);
+	visitedNodes.add(root);
+	root.distanceToRoot = 0;
+	depthsList.add(new ArrayList<>().add(root));
+	while (!bfsQueue.isEmpty()) {
+		Node currentNode = bfsQueue.poll();
+		for (Node adjacentNode : currentNode.adjacentNodes) {
+			if (!visitedNodes.contains(adjacentNode)) {
+				visitedNodes.add(adjacentNode);
+				bfsQueue.add(adjacentNode);
+				adjacentNode.distanceToRoot = currentNode.distanceToRoot + 1;
+				addNodeToDepthList(adjacentNode, depthsList);
+			}
+		}
+	}
+}
+
+public void addNodeToDepthsList (Node node, ArrayList <ArrayList <Node>> depthsList) {
+	if (node.distanceToRoot > depthsList.size()) {
+		return ; // Error Occurred
+	} else if (node.distanceToRoot == depthsList.size()) {
+		depthsList.add (new ArrayList<Node>().add(node));
+	} else {
+		depthsList.get(node.distanceToRoot).add(node);
+	}
+}

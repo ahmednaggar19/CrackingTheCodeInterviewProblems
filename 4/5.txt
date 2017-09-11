@@ -1,0 +1,35 @@
+public class TreeNode {
+
+	public int value;
+	public Node leftChild;
+	public Node rightChild;
+}
+
+public void inOrderTraversal (TreeNode root, ArrayList <Integer> inOrderTraversalNumbers) {
+	if (root == null) {
+		return;
+	}
+	inOrderTraversal (root.leftChild, inOrderTraversalNumbers);
+	inOrderTraversalNumbers.add(root.value);
+	inOrderTraversal (root.rightChild, inOrderTraversalNumbers);
+}
+
+public boolean isValidOrder (ArrayList <Integer> numbers) {
+	if (numbers.size() == 0) {
+		return true; // empty tree --> valid BST
+	}
+	int previousNumber = numbers.get(0);
+	for (int i = 1; i < numbers.size(); i++) {
+		if (numbers.get(i) < previousNumber) {
+			return false;
+		}
+		previousNumber = numbers.get(i);
+	}
+	return true;
+}
+
+public boolean isValidBST (TreeNode root) {
+	ArrayList <Integer> inOrderTraversalNumbers = new ArrayList<>();
+	inOrderTraversal(root, inOrderTraversalNumbers);
+	isValidOrder(inOrderTraversalNumbers);
+}

@@ -1,0 +1,30 @@
+/**
+* Time Complexity : O(N^2)
+* Space Complexity : O(N) == 2*N
+*/
+public class OrderedStack {
+
+	private Stack <Integer> originalData;
+	private Stack <Integer> buffer;
+
+	public OrderedStack () {
+		this.originalData = new Stack<>();
+		this.buffer = new Stack<>();		
+	}
+
+	public void push (int data) {
+		while (!originalData.isEmpty() && originalData.peek() < data) {
+			buffer.push(originalData.pop());	
+		}
+		originalData.push (data);
+		while (!buffer.isEmpty()) {
+			originalData.push(buffer.pop());
+		}
+		return;
+	}
+
+	public int pop () {
+		return originalData.pop();
+	}
+
+}

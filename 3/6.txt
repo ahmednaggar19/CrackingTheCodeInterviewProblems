@@ -1,0 +1,56 @@
+public class AnimalShelterManagementSystem {
+
+	private LinkedList <Dog> dogsQueue;
+	private LinkedList <Cat> catsQueue;
+
+	public AnimalShelterManagementSystem () {
+		this.dogsQueue = new LinkedList<>();
+		this.catsQueue = new LinkedList<>();	
+	}
+
+	public void enqueue (Animal animal) {
+		if (animal instanceof Dog) {
+			dogsQueue.add (animal);
+		} else {
+			catsQueue.add (animal);
+		}
+	}
+
+	public Animal dequeueAny () {
+		if (dogsQueue.isEmpty() && catsQueue.isEmpty()) {
+			return null;
+		} else if (catsQueue.isEmpty()) {
+			return dogsQueue.getLast();
+		} else if (dogsQueue.isEmpty()) {
+			return catsQueue.getLast();
+		} else {
+			return (catsQueue.peekLast().order >= dogsQueue.peekLast().order) ?
+				catsQueue.pollLast() : dogsQueue.pollLast();
+		}
+	}
+
+	public Dog dequeueDog () {
+		if (dogsQueue.isEmpty()) {
+			return null;
+		}
+		return dogsQueue.pollLast();
+	}
+
+	public Cat dequeueCat () {
+		if (catsQueue.isEmpty()) {
+			return null;
+		}
+		return catsQueue.pollLast();
+	}
+}
+
+public abstract class Animal {
+
+	public int order;
+}
+
+public class Cat extends Animal {}
+
+
+public class Dog extends Animal {}
+

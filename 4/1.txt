@@ -1,0 +1,40 @@
+public class Node {
+
+	public int nodeIndex;
+	public Node[] adjacentNodes;	
+}
+
+public void dfs (Node node, Set <Node> visitedNodes) {
+	if (visitedNodes.contains(node)) {
+		return;
+	}
+	for (Node adjacentNode : node.adjacentNodes) {
+		visitedNodes.add(adjacentNode);
+		dfs(adjacentNode, visitedNodes);
+	}
+	return;
+}
+
+public void bfs (Node root, Set <Node> visitedNodes) {
+	Queue <Node> bfsQueue = new Queue<>();
+	bfsQueue.add(root);
+	visitedNodes.add(root);
+	while (!bfsQueue.isEmpty()) {
+		Node currentNode = bfsQueue.poll();
+		for (Node adjacentNode : currentNode.adjacentNodes) {
+			if (!visitedNodes.contains(adjacentNode)) {
+				visitedNodes.add(adjacentNode);
+			}
+		}
+	}
+	return;
+} 
+/*=======================================================================================================*/
+public bool isConnected (Node node1, Node node2) {
+	Set <Node> visitedNodes = new Set<Node>();
+	dfs(node1, visitedNodes);                          // or bfs(node1, visitedNodes)
+	if (visitedNodes.contains(node2)) {
+		return true;
+	}
+	return false;
+}

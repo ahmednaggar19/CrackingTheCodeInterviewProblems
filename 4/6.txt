@@ -1,0 +1,28 @@
+public class TreeNode {
+
+	public int value;
+	public TreeNode leftChild;
+	public TreeNode rightChild;
+	public TreeNode parent;
+}
+
+public TreeNode getMinimumInTree (TreeNode root) {
+	if (root.leftChild == null) {
+		return root;
+	}
+	return getMinimumInTree(root.leftChild);
+}
+
+public TreeNode getNextInOrder (TreeNode node) {
+	if (node.rightChild != null) {
+		return getMinimumInSubTree (node.rightChild);
+	}
+	TreeNode curNode = node.parent;
+	while (curNode == curNode.parent.rightChild && curNode.parent != null) {
+		curNode = curNode.parent;
+	}
+	if (curNode.parent == null) {
+		return null;
+	}
+	return curNode.parent;
+}

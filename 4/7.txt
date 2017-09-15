@@ -1,0 +1,77 @@
+public class Node {
+
+	public String id;
+	public ArrayList <Node> adjacentNodes;
+	public boolean isRoot = true;
+
+	public Node (String id) {
+		this.id = id;
+	}
+}
+
+public ArrayList <Node> readNodes () {
+	Scanner scanner = new Scanner(System.in);
+	String nodesLine = scanner.nextLine();
+	ArrayList <String> nodesNames = nodesLine.split(", ");
+	ArrayList <Node> nodes = new ArrayList<Node>();
+	for (String nodeName : nodesNames) {
+		nodes.add(new Node(nodeName));			
+	}
+	return nodes;
+	scanner.close();
+}
+
+public HashMap <String, Node> getNodeMap (ArrayList <Node> nodes) {
+	HashMap <String, Node> nodesMap = new HashMap<>();
+	for (Node node : nodes) {
+		nodesMap.put (node.id, node);
+	}
+	return nodesMap;
+}
+
+public void readDependencies (ArrayList <Node> nodes) {
+	Scanner scanner = new Scanner (System.in);
+	String dependenciesLine = scanner.nextLine();
+	ArrayList <String> dependencies = dependenciesLine.split(" , ");
+	HashMap <String, Node> nodesMap = getNodeMap (nodes);
+	for (String dependency : dependencies) {
+		Node independant = nodesMap.get(dependency.substring(1, dependency.indexOf(","));
+		Node dependant = nodesMap.get(dependency.substring(dependency.indexOf(" ") + 1, dependency.length() - 1);
+		dependant.isRoot = false;
+		independant.adjacentNodes.add(dependant);
+	}
+	return;
+}
+
+public ArrayList <Node> getBfsOrder (Node root) {
+	ArrayList <Node> bfsOrder = new ArrayList<>();
+	Queue <Node> bfsQueue = new Queue <>();
+	Set <Node> visitedNodes = new Set<>();
+	bfsQueue.add(root);
+	visitedNodes.add(root);
+	bfsOrder.add(root);
+	while (!bfsQueue.isEmpty()) {
+		Node currentNode = bfsQueue.poll();
+		for (Node adjacentNode : currentNode.adjacentNodes) {
+			if (!visitedNodes.contains(adjacentNode)) {
+				visitedNodes.add(adjacentNode);
+				bfsQueue.add(adjacentNode);
+				bfsOrder.add(adjacentNode);
+			}
+		}
+	}
+	return bfsOrder;
+}
+
+public ArrayList <Node> getBuildOrder(ArrayList <Node> nodes) {
+	ArrayList <Node> buildOrder = new ArrayList <Node>();
+	for (Node node : nodes) {
+		if (node.isRoot) {
+			buildOrder.addAll(getBfsOrder(node));	
+		}
+	}
+	if (buildOrder.size() != nodes.size()) {
+		throw new RuntimeException();
+	}
+	return buildOrder;
+} 
